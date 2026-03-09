@@ -20,13 +20,8 @@ TECH_TAGS = {
 }
 
 # 项目标签
-PROJECT_TAGS = [
-    "knowlyr-crew",
-    "knowlyr-id",
-    "antgather",
-    "knowlyr-website",
-    "knowlyr-wiki",
-]
+# Populate with your project names
+PROJECT_TAGS: list[str] = []
 
 # 记忆类型标签
 MEMORY_TYPE_TAGS = [

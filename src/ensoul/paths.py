@@ -1,4 +1,4 @@
-"""Path helpers for crew resources."""
+"""Path helpers for ensoul resources."""
 
 from __future__ import annotations
 
@@ -12,7 +12,7 @@ try:  # pragma: no cover - only used on POSIX
 except ImportError:  # pragma: no cover - Windows fallback
     fcntl = None  # type: ignore
 
-_GLOBAL_ENV_VAR = "KNOWLYR_CREW_GLOBAL_DIR"
+_GLOBAL_ENV_VAR = "ENSOUL_GLOBAL_DIR"
 
 
 def resolve_project_dir(project_dir: Path | None = None) -> Path:
@@ -25,7 +25,7 @@ def _default_global_dir(project_dir: Path | None = None) -> Path:
 
 
 def get_global_dir(project_dir: Path | None = None) -> Path:
-    """Return the directory that stores global-level crew resources."""
+    """Return the directory that stores global-level ensoul resources."""
     configured = os.environ.get(_GLOBAL_ENV_VAR)
     if configured:
         return Path(configured).expanduser()

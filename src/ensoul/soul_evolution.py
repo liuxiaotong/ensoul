@@ -381,7 +381,7 @@ def run_evolution_review(
 # 审批执行（Phase 5）
 # ---------------------------------------------------------------------------
 
-_CREW_API_BASE = "https://crew.knowlyr.com/api"
+_ENSOUL_API_BASE = os.environ.get("ENSOUL_API_BASE", "")
 
 
 def _employee_slug_from_name(employee_name: str) -> str | None:
@@ -392,7 +392,11 @@ def _employee_slug_from_name(employee_name: str) -> str | None:
     """
     try:
         from ensoul.discovery import discover_employees
+    except ImportError:
+        logger.warning("discovery 模块不可用，无法查找 slug: %s", employee_name)
+        return None
 
+    try:
         discovery = discover_employees()
         for slug, emp in discovery.items():
             if emp.character_name == employee_name:
@@ -403,15 +407,15 @@ def _employee_slug_from_name(employee_name: str) -> str | None:
         return None
 
 
-def _get_crew_api_token() -> str | None:
-    """从环境变量获取 CREW API token."""
-    return os.environ.get("CREW_API_TOKEN")
+def _get_ensoul_api_token() -> str | None:
+    """从环境变量获取 ENSOUL API token."""
+    return os.environ.get("ENSOUL_API_TOKEN")
 
 
 def _update_soul_promote(employee_slug: str, rule_text: str) -> bool:
     """在 soul 的行为准则 section 追加一条规则.
 
-    1. 调 crew API 获取当前 soul
+    1. 调 API 获取当前 soul
     2. 找到 "## 行为准则" section
     3. 在该 section 末尾（下一个 ## 之前）追加 "- {rule_text}"
     4. PUT 写回 soul
@@ -419,16 +423,16 @@ def _update_soul_promote(employee_slug: str, rule_text: str) -> bool:
     Returns:
         True 更新成功
     """
-    token = _get_crew_api_token()
-    if not token or not _HAS_HTTPX:
-        logger.warning("CREW_API_TOKEN 或 httpx 不可用，跳过 soul 更新")
+    token = _get_ensoul_api_token()
+    if not token or not _HAS_HTTPX or not _ENSOUL_API_BASE:
+        logger.warning("ENSOUL_API_TOKEN / ENSOUL_API_BASE 或 httpx 不可用，跳过 soul 更新")
         return False
 
     headers = {"Authorization": f"Bearer {token}"}
 
     try:
         resp = httpx.get(
-            f"{_CREW_API_BASE}/souls/{employee_slug}",
+            f"{_ENSOUL_API_BASE}/souls/{employee_slug}",
             headers=headers,
             timeout=15.0,
         )
@@ -456,7 +460,7 @@ def _update_soul_promote(employee_slug: str, rule_text: str) -> bool:
             updated = soul_text.rstrip() + f"\n\n## 行为准则\n\n- {rule_text}\n"
 
         put_resp = httpx.put(
-            f"{_CREW_API_BASE}/souls/{employee_slug}",
+            f"{_ENSOUL_API_BASE}/souls/{employee_slug}",
             headers=headers,
             json={"soul": updated},
             timeout=15.0,
@@ -481,16 +485,16 @@ def _update_soul_archive(employee_slug: str, archive_note: str) -> bool:
     Returns:
         True 更新成功
     """
-    token = _get_crew_api_token()
-    if not token or not _HAS_HTTPX:
-        logger.warning("CREW_API_TOKEN 或 httpx 不可用，跳过 soul 更新")
+    token = _get_ensoul_api_token()
+    if not token or not _HAS_HTTPX or not _ENSOUL_API_BASE:
+        logger.warning("ENSOUL_API_TOKEN / ENSOUL_API_BASE 或 httpx 不可用，跳过 soul 更新")
         return False
 
     headers = {"Authorization": f"Bearer {token}"}
 
     try:
         resp = httpx.get(
-            f"{_CREW_API_BASE}/souls/{employee_slug}",
+            f"{_ENSOUL_API_BASE}/souls/{employee_slug}",
             headers=headers,
             timeout=15.0,
         )
@@ -514,7 +518,7 @@ def _update_soul_archive(employee_slug: str, archive_note: str) -> bool:
             updated = soul_text.rstrip() + "\n" + note_line
 
         put_resp = httpx.put(
-            f"{_CREW_API_BASE}/souls/{employee_slug}",
+            f"{_ENSOUL_API_BASE}/souls/{employee_slug}",
             headers=headers,
             json={"soul": updated},
             timeout=15.0,

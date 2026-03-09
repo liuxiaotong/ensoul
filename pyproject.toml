@@ -48,12 +48,6 @@ webhook = ["starlette>=0.27", "uvicorn>=0.20", "croniter>=2.0"]
 dev = ["pytest", "pytest-asyncio", "ruff"]
 all = ["ensoul[mcp,execute,openai,pg,webhook,dev]"]
 
-[project.scripts]
-ensoul = "ensoul.cli:main"
-
-[project.entry-points."mcp.servers"]
-ensoul = "ensoul.mcp_server:serve"
-
 [project.urls]
 Homepage = "https://github.com/liuxiaotong/ensoul"
 Repository = "https://github.com/liuxiaotong/ensoul"

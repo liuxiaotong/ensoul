@@ -1,8 +1,8 @@
-"""Custom exception hierarchy for knowlyr-crew."""
+"""Custom exception hierarchy for ensoul."""
 
 
 class CrewError(Exception):
-    """Base exception for all crew errors."""
+    """Base exception for all ensoul errors."""
 
 
 class EmployeeNotFoundError(CrewError):

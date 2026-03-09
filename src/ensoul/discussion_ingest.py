@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 class ParticipantInput(BaseModel):
     """单个参与者的讨论输入."""
 
-    name: str = Field(description="员工角色名，如 姜墨言")
+    name: str = Field(description="员工角色名")
     slug: str = Field(default="", description="员工 slug，为空时自动解析")
     contributions: list[str] = Field(default_factory=list, description="该员工的发言/观点")
     action_items: list[str] = Field(default_factory=list, description="该员工的待办事项")
@@ -42,32 +42,32 @@ class DiscussionInput(BaseModel):
     shared_conclusions: list[str] = Field(default_factory=list, description="团队共识")
 
 
-def sync_to_crew_server(data: dict) -> bool:
-    """将讨论数据同步到线上 crew 服务（crew.knowlyr.com）.
+def sync_to_remote_server(data: dict) -> bool:
+    """将讨论数据同步到远程服务端.
 
-    通过 POST /api/memory/ingest 写入服务端的 .crew/memory/ 和 .crew/meetings/。
-    需要 CREW_REMOTE_URL 和 CREW_API_TOKEN 环境变量。
+    通过 POST /api/memory/ingest 写入服务端记忆和会议记录。
+    需要 ENSOUL_REMOTE_URL 和 ENSOUL_API_TOKEN 环境变量。
 
     Returns:
         True 成功, False 失败（不抛异常）
     """
-    crew_url = os.environ.get("CREW_REMOTE_URL", "")
-    crew_token = os.environ.get("CREW_API_TOKEN", "")
-    if not crew_url or not crew_token:
-        logger.info("CREW_REMOTE_URL 或 CREW_API_TOKEN 未设置，跳过线上同步")
+    remote_url = os.environ.get("ENSOUL_REMOTE_URL", "")
+    api_token = os.environ.get("ENSOUL_API_TOKEN", "")
+    if not remote_url or not api_token:
+        logger.info("ENSOUL_REMOTE_URL 或 ENSOUL_API_TOKEN 未设置，跳过线上同步")
         return False
 
     try:
         import httpx
     except ImportError:
-        logger.warning("httpx 未安装，无法同步到线上 crew")
+        logger.warning("httpx 未安装，无法同步到远程服务端")
         return False
 
-    url = f"{crew_url.rstrip('/')}/api/memory/ingest"
+    url = f"{remote_url.rstrip('/')}/api/memory/ingest"
     try:
         resp = httpx.post(
             url,
-            headers={"Authorization": f"Bearer {crew_token}"},
+            headers={"Authorization": f"Bearer {api_token}"},
             json=data,
             timeout=10.0,
         )
@@ -76,12 +76,12 @@ def sync_to_crew_server(data: dict) -> bool:
         logger.info("线上同步成功: %d 条记忆", result.get("memories_written", 0))
         return True
     except Exception as e:
-        logger.warning("同步到线上 crew 失败: %s", e)
+        logger.warning("同步到远程服务端失败: %s", e)
         return False
 
 
 class DiscussionIngestor:
-    """将外部讨论数据写入 Crew 记忆系统."""
+    """将外部讨论数据写入记忆系统."""
 
     def __init__(self, project_dir: Path | None = None, tenant_id: str | None = None):
         self.project_dir = resolve_project_dir(project_dir)
@@ -260,10 +260,10 @@ class DiscussionIngestor:
         results["meeting_saved"] = True
         results["meeting_id"] = meeting_id
 
-        # 同步到线上 crew 服务
-        results["synced_to_crew"] = sync_to_crew_server(data.model_dump())
+        # 同步到远程服务端
+        results["synced_to_crew"] = sync_to_remote_server(data.model_dump())
 
         return results
 
 
-__all__ = ["DiscussionInput", "DiscussionIngestor", "ParticipantInput", "sync_to_crew_server"]
+__all__ = ["DiscussionInput", "DiscussionIngestor", "ParticipantInput", "sync_to_remote_server"]

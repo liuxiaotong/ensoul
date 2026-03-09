@@ -3,8 +3,8 @@
 生产环境使用 PostgreSQL（连接池），开发/测试环境可回退到 SQLite。
 
 后端选择优先级:
-  1. 环境变量 ``CREW_USE_SQLITE=1`` → SQLite
-  2. 环境变量 ``CREW_DATABASE_URL`` 以 ``sqlite`` 开头 → SQLite
+  1. 环境变量 ``ENSOUL_USE_SQLITE=1`` → SQLite
+  2. 环境变量 ``ENSOUL_DATABASE_URL`` 以 ``sqlite`` 开头 → SQLite
   3. 其他 → PostgreSQL
 
 用法::
@@ -34,15 +34,15 @@ logger = logging.getLogger(__name__)
 
 # ── 配置 ──
 
-_DEFAULT_PG_URL = "postgresql://crew:crew@localhost:5432/knowlyr_crew"
+_DEFAULT_PG_URL = "postgresql://ensoul:ensoul@localhost:5432/ensoul"
 
 
 def _database_url() -> str:
-    return os.environ.get("CREW_DATABASE_URL", _DEFAULT_PG_URL)
+    return os.environ.get("ENSOUL_DATABASE_URL", _DEFAULT_PG_URL)
 
 
 def _force_sqlite() -> bool:
-    return os.environ.get("CREW_USE_SQLITE", "").strip() in ("1", "true", "yes")
+    return os.environ.get("ENSOUL_USE_SQLITE", "").strip() in ("1", "true", "yes")
 
 
 def is_pg() -> bool:

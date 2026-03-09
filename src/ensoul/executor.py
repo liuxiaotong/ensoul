@@ -141,7 +141,7 @@ def _anthropic_execute(
 ) -> ExecutionResult:
     anthropic = _get_anthropic()
     if anthropic is None:
-        raise ImportError("anthropic SDK 未安装。请运行: pip install knowlyr-crew[execute]")
+        raise ImportError("anthropic SDK 未安装。请运行: pip install ensoul[execute]")
 
     client = anthropic.Anthropic(api_key=api_key)
     kwargs: dict = {
@@ -191,7 +191,7 @@ async def _anthropic_aexecute(
 ) -> ExecutionResult | AsyncIterator[str] | AsyncIterator[dict[str, Any]]:
     anthropic = _get_anthropic()
     if anthropic is None:
-        raise ImportError("anthropic SDK 未安装。请运行: pip install knowlyr-crew[execute]")
+        raise ImportError("anthropic SDK 未安装。请运行: pip install ensoul[execute]")
 
     client = anthropic.AsyncAnthropic(api_key=api_key)
     kwargs: dict = {
@@ -310,7 +310,7 @@ def _openai_execute(
 ) -> ExecutionResult:
     openai = _get_openai()
     if openai is None:
-        raise ImportError("openai SDK 未安装。请运行: pip install knowlyr-crew[openai]")
+        raise ImportError("openai SDK 未安装。请运行: pip install ensoul[openai]")
 
     client_kwargs: dict = {"api_key": api_key, "timeout": 30.0}
     if base_url:
@@ -377,7 +377,7 @@ async def _openai_aexecute(
 ) -> ExecutionResult | AsyncIterator[str]:
     openai = _get_openai()
     if openai is None:
-        raise ImportError("openai SDK 未安装。请运行: pip install knowlyr-crew[openai]")
+        raise ImportError("openai SDK 未安装。请运行: pip install ensoul[openai]")
 
     client_kwargs: dict = {"api_key": api_key, "timeout": 30.0}
     if base_url:
@@ -452,7 +452,7 @@ def _gemini_execute(
     genai = _get_genai()
     if genai is None:
         raise ImportError(
-            "google-generativeai SDK 未安装。请运行: pip install knowlyr-crew[gemini]"
+            "google-generativeai SDK 未安装。请运行: pip install ensoul[gemini]"
         )
 
     gen_config = {}
@@ -509,7 +509,7 @@ async def _gemini_aexecute(
     genai = _get_genai()
     if genai is None:
         raise ImportError(
-            "google-generativeai SDK 未安装。请运行: pip install knowlyr-crew[gemini]"
+            "google-generativeai SDK 未安装。请运行: pip install ensoul[gemini]"
         )
 
     gen_config = {}
@@ -872,7 +872,7 @@ def _anthropic_execute_with_tools(
 ) -> ToolExecutionResult:
     anthropic = _get_anthropic()
     if anthropic is None:
-        raise ImportError("anthropic SDK 未安装。请运行: pip install knowlyr-crew[execute]")
+        raise ImportError("anthropic SDK 未安装。请运行: pip install ensoul[execute]")
 
     client = anthropic.Anthropic(api_key=api_key)
     resp = client.messages.create(
@@ -917,7 +917,7 @@ async def _anthropic_aexecute_with_tools(
 ) -> ToolExecutionResult:
     anthropic = _get_anthropic()
     if anthropic is None:
-        raise ImportError("anthropic SDK 未安装。请运行: pip install knowlyr-crew[execute]")
+        raise ImportError("anthropic SDK 未安装。请运行: pip install ensoul[execute]")
 
     client = anthropic.AsyncAnthropic(api_key=api_key)
     resp = await client.messages.create(
@@ -963,7 +963,7 @@ def _openai_execute_with_tools(
 ) -> ToolExecutionResult:
     openai = _get_openai()
     if openai is None:
-        raise ImportError("openai SDK 未安装。请运行: pip install knowlyr-crew[openai]")
+        raise ImportError("openai SDK 未安装。请运行: pip install ensoul[openai]")
 
     client_kwargs: dict = {"api_key": api_key, "timeout": 30.0}
     if base_url:
@@ -1035,7 +1035,7 @@ async def _openai_aexecute_with_tools(
 ) -> ToolExecutionResult:
     openai = _get_openai()
     if openai is None:
-        raise ImportError("openai SDK 未安装。请运行: pip install knowlyr-crew[openai]")
+        raise ImportError("openai SDK 未安装。请运行: pip install ensoul[openai]")
 
     client_kwargs: dict = {"api_key": api_key, "timeout": 30.0}
     if base_url:

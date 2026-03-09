@@ -365,14 +365,14 @@ def _parse_argument_hint(hint_str: str) -> list[EmployeeArg]:
 
 
 def _extract_skill_metadata(body: str) -> tuple[dict, str]:
-    """从 SKILL.md 正文中提取 HTML 注释里的 Crew 元数据.
+    """从 SKILL.md 正文中提取 HTML 注释里的元数据.
 
-    查找 <!-- knowlyr-crew metadata {...} --> 格式的注释。
+    查找 <!-- ensoul metadata {...} --> 格式的注释。
 
     Returns:
         (metadata_dict, clean_body)
     """
-    pattern = r"<!--\s*knowlyr-crew\s+metadata\s+(.*?)\s*-->"
+    pattern = r"<!--\s*ensoul\s+metadata\s+(.*?)\s*-->"
     match = re.search(pattern, body, re.DOTALL)
     if not match:
         return {}, body
