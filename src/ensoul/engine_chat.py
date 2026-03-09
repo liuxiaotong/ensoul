@@ -16,6 +16,8 @@ from ensoul.models import Employee
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_MODEL = "claude-sonnet-4-20250514"
+
 
 class CrewEngine(PromptEngine):
     """数字员工执行引擎 — 完整版（含 LLM 调用和记忆管理）.
@@ -499,7 +501,7 @@ class CrewEngine(PromptEngine):
             chat_fallback_api_key = None
             chat_fallback_base_url = None
         else:
-            chat_model = model or emp.model or "claude-sonnet-4-20250514"
+            chat_model = model or emp.model or DEFAULT_MODEL
             chat_api_key = emp.api_key or None
             chat_base_url = emp.base_url or None
             chat_fallback_model = emp.fallback_model or None
