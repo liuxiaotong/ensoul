@@ -1,6 +1,6 @@
 """发现机制 — 内置 + .claude/skills + private/employees.
 
-支持两种数据源（由 CREW_EMPLOYEE_SOURCE 环境变量控制）：
+支持两种数据源（由 ENSOUL_EMPLOYEE_SOURCE 环境变量控制）：
 - ``db``（默认）：从 PostgreSQL employees 表读取
 - ``filesystem``：原有文件系统扫描逻辑
 """
@@ -20,7 +20,7 @@ from ensoul.parser import parse_employee, parse_employee_dir, parse_skill, valid
 logger = logging.getLogger(__name__)
 
 # Feature flag: db (默认) 或 filesystem
-EMPLOYEE_SOURCE = os.environ.get("CREW_EMPLOYEE_SOURCE", "db")
+EMPLOYEE_SOURCE = os.environ.get("ENSOUL_EMPLOYEE_SOURCE", "db")
 
 # ── TTL 缓存 ──
 _cache: dict[str, tuple[float, DiscoveryResult]] = {}
@@ -206,7 +206,7 @@ def discover_employees(
 ) -> DiscoveryResult:
     """执行员工发现.
 
-    数据源由 CREW_EMPLOYEE_SOURCE 环境变量控制：
+    数据源由 ENSOUL_EMPLOYEE_SOURCE 环境变量控制：
     - ``db``（默认）：PG 可用时从 employees 表查询
     - ``filesystem``：原有文件系统扫描
 
@@ -234,7 +234,7 @@ def discover_employees(
                 return result
 
     # 选择数据源
-    source = os.environ.get("CREW_EMPLOYEE_SOURCE", "db")
+    source = os.environ.get("ENSOUL_EMPLOYEE_SOURCE", "db")
     if source == "db":
         result = _discover_employees_from_db(root, tenant_id=tenant_id)
     else:
