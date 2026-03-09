@@ -17,6 +17,8 @@ from __future__ import annotations
 import contextvars
 import json
 import logging
+import os
+import tempfile
 import uuid
 from datetime import datetime
 from pathlib import Path
@@ -263,11 +265,12 @@ class TrajectoryCollector:
     # ── 临时文件存储（2026-03-02 记忆系统优化）──
 
     def _write_temp_file(self) -> None:
-        """将工具调用序列写入临时文件 /data/trajectory_temp/{date}/session-{id}.jsonl."""
+        """将工具调用序列写入临时文件 {temp_dir}/ensoul_trajectory/{date}/session-{id}.jsonl."""
         try:
             from datetime import date as dt_date
 
-            temp_base = Path("/data/trajectory_temp")
+            temp_base = Path(os.environ.get("ENSOUL_TRAJECTORY_TEMP_DIR",
+                                            os.path.join(tempfile.gettempdir(), "ensoul_trajectory")))
             date_str = dt_date.today().isoformat()
             date_dir = temp_base / date_str
             date_dir.mkdir(parents=True, exist_ok=True)

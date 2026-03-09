@@ -11,14 +11,9 @@ from ensoul.models import Employee, DiscoveryResult, PipelineResult, StepResult 
 from ensoul.memory import MemoryEntry  # noqa: E402, F401
 from ensoul.exceptions import *  # noqa: E402, F401, F403
 
-# Wave 2 modules — scoring, cost tracking, trajectory, delivery, etc.
-from ensoul.scoring import score_trajectory, check_behavior_match  # noqa: E402, F401
-from ensoul.cost import estimate_cost, enrich_result_with_cost  # noqa: E402, F401
-from ensoul.trajectory import TrajectoryCollector  # noqa: E402, F401
-from ensoul.trajectory_export import TrajectoryExporter  # noqa: E402, F401
-from ensoul.delivery import deliver, DeliveryTarget, DeliveryResult  # noqa: E402, F401
-from ensoul.task_registry import TaskRegistry, TaskRecord  # noqa: E402, F401
-from ensoul.metrics import MetricsCollector, get_collector  # noqa: E402, F401
-from ensoul.permission_request import PermissionManager  # noqa: E402, F401
-from ensoul.classification import get_effective_clearance  # noqa: E402, F401
-from ensoul.output_sanitizer import strip_internal_tags  # noqa: E402, F401
+# Wave 2 modules are available via explicit imports, e.g.:
+#   from ensoul.scoring import score_trajectory
+#   from ensoul.trajectory import TrajectoryCollector
+#   from ensoul.delivery import deliver
+# This avoids pulling in heavy dependencies (pydantic/starlette/yaml)
+# at top-level import time.
