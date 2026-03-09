@@ -26,6 +26,9 @@
 
 </div>
 
+> **ensoul** is the open-source framework for building AI employees with persistent identity, experience, and deliberation.
+> It powers [Crew](https://github.com/liuxiaotong/knowlyr-crew), a production platform running 33+ specialized AI employees at [Knowlyr](https://knowlyr.com).
+
 ---
 
 ## The Agent Paradox
@@ -50,7 +53,7 @@ $$\text{Effective Agent} = \text{Identity} + \text{Experience} + \text{Deliberat
 
 These are not our invention. They are decades of organizational research — from cognitive psychology to management science — formalized into computable, version-controlled, protocol-native specifications.
 
-| Missing Element | Production Failure Mode | Research Basis | Crew's Implementation |
+| Missing Element | Production Failure Mode | Research Basis | ensoul's Implementation |
 |:---|:---|:---|:---|
 | **Persistent Identity** | Personality rebuilt from scratch each session; unpredictable behavior | Personal identity theory (Parfit, 1984) | Soul system + declarative specs |
 | **Experiential Learning** | Same mistakes repeated; no improvement from failure | Ebbinghaus (1885); RLHF (Christiano et al., 2017) | 16-module memory ecosystem + evaluation loop + Skills auto-trigger |
@@ -257,7 +260,7 @@ ensoul mcp -t sse --api-token SECRET      # Enable Bearer authentication
 
 ### 5.1 Declarative Employee Specification
 
-By analogy with **Infrastructure as Code** (Morris, 2016) — Terraform uses declarative HCL to define infrastructure, Kubernetes uses YAML to define desired service state — Crew uses declarative specifications to define an AI employee's capability boundary. Configuration is separated from prompts, version-trackable, and IDE-agnostic.
+By analogy with **Infrastructure as Code** (Morris, 2016) — Terraform uses declarative HCL to define infrastructure, Kubernetes uses YAML to define desired service state — ensoul uses declarative specifications to define an AI employee's capability boundary. Configuration is separated from prompts, version-trackable, and IDE-agnostic.
 
 **Directory format (recommended)**:
 
@@ -311,7 +314,7 @@ output:
 | Highest | `private/employees/` | Repository-local custom employees |
 | High | Database (remote) | Server-managed employee definitions |
 | Medium-High | `.claude/skills/` | Claude Code Skills compatibility layer |
-| Medium | `.crew/employees/` | Crew workspace employees |
+| Medium | `.crew/employees/` | ensoul workspace employees |
 | Low | Package built-ins | Default employees |
 | Fallback | Organization defaults | `organization.yaml` model_defaults |
 
@@ -361,7 +364,7 @@ $$\text{soul}(e) = \langle \text{identity}, \text{principles}, \text{style}, \te
 
 The distinction between Soul and memory: memory is **accumulated experience** (decays, can be corrected); Soul is **identity definition** (does not decay, requires deliberate updates). The analogy is human personality vs. memory — personality is stable while memory flows.
 
-**What this points to**: The Soul system represents a paradigm shift from *tool-centric* to *entity-centric* agent design. Traditional frameworks define agents by what they *do* (tools, prompts). Crew defines agents by who they *are* (identity, principles, boundaries). This is the difference between hiring a contractor with a task list and employing a colleague with professional identity. As AI workforces scale, this distinction will determine whether organizations can maintain behavioral consistency across thousands of agent instances.
+**What this points to**: The Soul system represents a paradigm shift from *tool-centric* to *entity-centric* agent design. Traditional frameworks define agents by what they *do* (tools, prompts). ensoul defines agents by who they *are* (identity, principles, boundaries). This is the difference between hiring a contractor with a task list and employing a colleague with professional identity. As AI workforces scale, this distinction will determine whether organizations can maintain behavioral consistency across thousands of agent instances.
 
 ### 5.3 Organization Governance
 
@@ -423,7 +426,7 @@ routing_templates:
 
 ### 6.1 Memory Ecosystem (16 Modules)
 
-Ebbinghaus (1885) demonstrated that memory strength decays exponentially over time, and that spaced repetition effectively counters forgetting. Crew brings this cognitive science principle into the knowledge persistence mechanism of agent systems — not as a metaphor, but as an implemented mathematical model.
+Ebbinghaus (1885) demonstrated that memory strength decays exponentially over time, and that spaced repetition effectively counters forgetting. ensoul brings this cognitive science principle into the knowledge persistence mechanism of agent systems — not as a metaphor, but as an implemented mathematical model.
 
 **16 specialized memory modules**:
 
@@ -531,7 +534,7 @@ Employee receives task → Server checks Skills trigger conditions → On match,
 
 ### 6.4 Information Classification
 
-Every piece of organizational knowledge is not equally shareable. A customer's contract terms, an employee's performance review, a security vulnerability report — these require different handling than a coding convention or a meeting summary. Crew implements a 4-level information classification system:
+Every piece of organizational knowledge is not equally shareable. A customer's contract terms, an employee's performance review, a security vulnerability report — these require different handling than a coding convention or a meeting summary. ensoul implements a 4-level information classification system:
 
 | Level | Scope | Example |
 |:---|:---|:---|
@@ -550,7 +553,7 @@ Classification is enforced at every layer: memory storage, Skills injection, cha
 
 The core challenge in multi-agent collaboration is maintaining **epistemic diversity**. Stasser & Titus (1985) demonstrated experimentally that in unstructured group discussions, commonly-known information is discussed at significantly higher rates than individually-held unique information, causing optimal decisions to be systematically overlooked. Nemeth (1994) found that even *incorrect* minority opinions, when persistently expressed, improve majority group decision quality — because they force the majority to more carefully examine their own assumptions.
 
-Crew implements 9 structured interaction modes, each imposing different argumentative constraints on participants:
+ensoul implements 9 structured interaction modes, each imposing different argumentative constraints on participants:
 
 | Mode | Mechanism |
 |:---|:---|
@@ -707,7 +710,7 @@ All channels are unified through Skills trigger checking + output sanitization +
 
 ### 8.3 Multi-Tenant Isolation
 
-Crew supports full multi-tenant isolation for SaaS deployments:
+ensoul supports full multi-tenant isolation for SaaS deployments:
 
 | Dimension | Isolation Level |
 |:---|:---|
@@ -721,7 +724,7 @@ Crew supports full multi-tenant isolation for SaaS deployments:
 
 ### 8.4 MCP Gateway
 
-Crew can connect to external MCP servers, dynamically injecting their tools into employee specifications:
+ensoul can connect to external MCP servers, dynamically injecting their tools into employee specifications:
 
 | Feature | Description |
 |:---|:---|
@@ -768,10 +771,10 @@ Sanitization rules cover 5 tag pattern classes (regex matching + content removal
 Zero-intrusion trajectory recording via `contextvars.ContextVar` — no business code modifications required, automatically capturing agent reasoning, tool calls, execution results, and token consumption:
 
 ```
-Crew produces trajectories → agentrecorder standard format → knowlyr-gym PRM scoring → SFT / DPO / GRPO training
+ensoul produces trajectories → agentrecorder standard format → knowlyr-gym PRM scoring → SFT / DPO / GRPO training
 ```
 
-This is the data bridge connecting **Crew** (collaboration layer) and **knowlyr-gym** (training layer) — real interaction trajectories generated during Crew runtime can be directly used for agent reinforcement learning.
+This is the data bridge connecting **ensoul** (collaboration layer) and **knowlyr-gym** (training layer) — real interaction trajectories generated during ensoul runtime can be directly used for agent reinforcement learning.
 
 | Feature | Description |
 |:---|:---|
@@ -895,7 +898,7 @@ Jiang Moyan:
 
 ## Production Server
 
-Crew runs as an HTTP server, receiving external events and auto-triggering pipeline / employee execution:
+ensoul runs as an HTTP server, receiving external events and auto-triggering pipeline / employee execution:
 
 ```bash
 pip install ensoul[webhook]
@@ -971,7 +974,7 @@ ensoul serve --port 8765 --token YOUR_SECRET
 
 ### knowlyr-id — Identity & Runtime Federation
 
-Crew defines "who does what"; [knowlyr-id](https://github.com/liuxiaotong/knowlyr-id) manages identity, conversations, and runtime. Both collaborate but each can operate independently:
+Crew (the production platform built on ensoul) defines "who does what"; [knowlyr-id](https://github.com/liuxiaotong/knowlyr-id) manages identity, conversations, and runtime. Both collaborate but each can operate independently:
 
 ```
 ┌──────────────────────────────────────┐
@@ -989,7 +992,7 @@ Crew defines "who does what"; [knowlyr-id](https://github.com/liuxiaotong/knowly
 
 knowlyr-id fetches employee prompt / model / temperature / team / permissions / cost via `CREW_API_URL` (5-minute cache); falls back to DB cache when unavailable. The connection is **optional** — Crew operates independently without it. The admin dashboard displays each employee's permission badges, team membership, and 7-day cost in real-time, with one-click authority restoration.
 
-**Employee state sync** (`agent_status`): Crew maintains a three-state lifecycle — `active` (normal operation) / `frozen` (suspended; configuration preserved but execution skipped) / `inactive` (decommissioned). State changes are bidirectionally synced to knowlyr-id; frozen employees are automatically skipped during pipeline execution.
+**Employee state sync** (`agent_status`): ensoul maintains a three-state lifecycle — `active` (normal operation) / `frozen` (suspended; configuration preserved but execution skipped) / `inactive` (decommissioned). State changes are bidirectionally synced to knowlyr-id; frozen employees are automatically skipped during pipeline execution.
 
 <details>
 <summary>Field mapping</summary>
@@ -1026,7 +1029,7 @@ All channels are unified through Skills checking + output sanitization + audit l
 
 ### Claude Code Skills Interoperability
 
-Crew employees and Claude Code native Skills bidirectionally convert: `tools` ↔ `allowed-tools`, `args` ↔ `argument-hint`, metadata round-trips via HTML comments.
+ensoul employees and Claude Code native Skills bidirectionally convert: `tools` ↔ `allowed-tools`, `args` ↔ `argument-hint`, metadata round-trips via HTML comments.
 
 ```bash
 ensoul export code-reviewer    # → .claude/skills/code-reviewer/SKILL.md
@@ -1173,18 +1176,18 @@ graph LR
     Synth --> Check["Check<br/>Quality"]
     Label --> Check
     Check --> Audit["Audit<br/>Model Audit"]
-    Crew["Crew<br/>Deliberation Engine"]
+    Ensoul["ensoul<br/>Deliberation Engine"]
     Agent["Agent<br/>RL Framework"]
     ID["ID<br/>Identity Runtime"]
-    Crew -.->|Capability definition| ID
-    ID -.->|Identity + memory| Crew
-    Crew -.->|Trajectories + rewards| Agent
-    Agent -.->|Optimized policies| Crew
+    Ensoul -.->|Capability definition| ID
+    ID -.->|Identity + memory| Ensoul
+    Ensoul -.->|Trajectories + rewards| Agent
+    Agent -.->|Optimized policies| Ensoul
     Ledger["Ledger<br/>Accounting"]
-    Crew -.->|AI employee accounts| Ledger
-    Ledger -.->|Token settlement| Crew
+    Ensoul -.->|AI employee accounts| Ledger
+    Ledger -.->|Token settlement| Ensoul
 
-    style Crew fill:#0969da,color:#fff,stroke:#0969da
+    style Ensoul fill:#0969da,color:#fff,stroke:#0969da
     style Ledger fill:#d29922,color:#fff,stroke:#d29922
     style ID fill:#2da44e,color:#fff,stroke:#2da44e
     style Agent fill:#8b5cf6,color:#fff,stroke:#8b5cf6
@@ -1207,7 +1210,7 @@ graph LR
 | Audit | **ModelAudit** | Distillation detection, model fingerprinting | [GitHub](https://github.com/liuxiaotong/model-audit) |
 | Identity | **knowlyr-id** | Identity system + AI employee runtime | [GitHub](https://github.com/liuxiaotong/knowlyr-id) |
 | Ledger | **knowlyr-ledger** | Unified ledger, double-entry bookkeeping, row-lock safety, idempotent transactions | [GitHub](https://github.com/liuxiaotong/knowlyr-ledger) |
-| Deliberation | **Crew** | Structured dialectical deliberation, persistent memory, MCP-native | This project |
+| Deliberation | **ensoul** | Structured dialectical deliberation, persistent memory, MCP-native | This project |
 | Agent Training | **knowlyr-gym** | Gymnasium-style RL framework, process reward models, SFT/DPO/GRPO | [GitHub](https://github.com/liuxiaotong/knowlyr-gym) |
 
 ---
@@ -1229,9 +1232,27 @@ uv run --extra dev --extra mcp pytest tests/ -q    # 2025 test cases
 >
 > What we're actually building is an answer to a question that's about to become very important: **When AI employees outnumber human ones, what should an organization look like?**
 >
-> The answer won't start from scratch. From Aristotle's rhetoric to Janis's groupthink research, from the Ebbinghaus forgetting curve to modern RLHF — millennia of human organizational wisdom is the best starting point. Crew's job is to make that wisdom executable by AI.
+> The answer won't start from scratch. From Aristotle's rhetoric to Janis's groupthink research, from the Ebbinghaus forgetting curve to modern RLHF — millennia of human organizational wisdom is the best starting point. ensoul's job is to make that wisdom executable by AI.
 >
 > This is not the destination. This is the starting point.
+
+---
+
+## Open Source vs Production
+
+ensoul is the engine; **Crew** is the fleet.
+
+| | **ensoul** (Open Source) | **Crew** (Production) |
+|---|---|---|
+| **License** | MIT | Proprietary |
+| **AI Employees** | Build your own | 33+ pre-configured, battle-tested |
+| **Memory** | Framework + APIs | 16 production modules, 50K+ memories |
+| **Deliberation** | 9 structured modes | + trained policies from real interactions |
+| **Deployment** | Self-hosted | Managed infrastructure |
+| **Support** | Community (GitHub Issues) | Official support |
+| **Source** | [github.com/liuxiaotong/ensoul](https://github.com/liuxiaotong/ensoul) | Private repository |
+
+> **Why open source the core?** We believe the fundamental problem of AI employee identity and memory should be solved openly. Proprietary frameworks create vendor lock-in for something as personal as an AI's soul. ensoul gives you full ownership; Crew gives you a running start.
 
 ---
 
