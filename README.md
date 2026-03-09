@@ -1,14 +1,34 @@
-# ensoul
+<div align="right">
 
-**Give your AI a soul.**
+**English** | [中文](README.zh-CN.md)
 
-ensoul is a framework for building **digital employees** — AI agents with persistent identity, long-term memory, and multi-agent negotiation. Define who your AI *is* in Markdown, and ensoul handles the rest.
+</div>
 
-> Part of the [Crew](https://github.com/liuxiaotong/knowlyr-crew) ecosystem — a digital employee management system used in production at [Knowlyr](https://knowlyr.com).
+<div align="center">
+
+<h1>ensoul</h1>
+
+<h3>Give your AI a soul.</h3>
+
+<p><strong>Identity + Memory + Negotiation framework for digital employees.</strong><br/>
+<em>Define who your AI is in Markdown. ensoul handles the rest.</em></p>
+
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+<br/>
+[![Memory Modules](https://img.shields.io/badge/Memory_Modules-9-purple.svg)](#memory-pipeline)
+[![Providers](https://img.shields.io/badge/LLM_Providers-7-orange.svg)](#multi-provider-execution)
+[![Status](https://img.shields.io/badge/Status-Alpha-yellow.svg)](#status)
+
+[Why ensoul?](#why-ensoul) · [Quick Start](#quick-start) · [Architecture](#core-architecture) · [Memory Pipeline](#memory-pipeline) · [Soul Evolution](#soul-evolution) · [vs Other Frameworks](#how-it-differs-from-other-frameworks) · [Crew Ecosystem](#crew-ecosystem)
+
+</div>
+
+---
 
 ## Why ensoul?
 
-Most AI agent frameworks focus on **what** agents do (task orchestration, tool calling). ensoul focuses on **who** agents are:
+Most AI agent frameworks focus on **what** agents do (task orchestration, tool calling). ensoul focuses on **who** agents are.
 
 | Concept | What it means |
 |---------|--------------|
@@ -16,7 +36,9 @@ Most AI agent frameworks focus on **what** agents do (task orchestration, tool c
 | **Memory** | Persistent, semantic memory with a Reflect → Connect → Store pipeline — not just chat history |
 | **Negotiation** | Multi-agent discussions with configurable roles, stances, and structured disagreement |
 
-## Quick start
+---
+
+## Quick Start
 
 ```bash
 pip install ensoul
@@ -64,7 +86,9 @@ Add to your Claude Code MCP config:
 
 Now Claude Code can load your code reviewer's soul, recall relevant memories from past reviews, and behave consistently across sessions.
 
-## Core architecture
+---
+
+## Core Architecture
 
 ```
 ┌─────────────────────────────────────────┐
@@ -84,22 +108,53 @@ Now Claude Code can load your code reviewer's soul, recall relevant memories fro
 │  │  Anthropic · OpenAI · DeepSeek  │   │
 │  │  Moonshot · Gemini · Qwen       │   │
 │  └──────────────────────────────────┘   │
-│                                         │
-│  ┌──────────────────────────────────┐   │
-│  │  MCP Server · CLI · Webhook     │   │
-│  └──────────────────────────────────┘   │
 └─────────────────────────────────────────┘
 ```
 
-## Key features
+---
 
-- **Markdown-native** — Define employees in plain Markdown. No YAML/JSON config hell.
-- **Memory pipeline** — Automatic extraction, deduplication, and consolidation of knowledge across sessions.
-- **Soul evolution** — Behavioral guidelines auto-evolve from accumulated experience (with human approval).
-- **Multi-agent discussions** — Structured debates with configurable stances, mandatory challenges, and agreement limits.
-- **Multi-provider** — Works with Anthropic, OpenAI, DeepSeek, Moonshot, Google Gemini, and more.
-- **MCP-native** — First-class Model Context Protocol support for Claude Code, Cursor, and other AI IDEs.
-- **Channel integrations** — Built-in support for Feishu (Lark) and WeCom bots.
+## Memory Pipeline
+
+ensoul's memory system is not a vector database bolted onto chat history. It's a three-stage pipeline that mirrors how humans consolidate experience:
+
+| Stage | What happens |
+|-------|-------------|
+| **Reflect** | LLM extracts structured notes from raw interaction, deciding what's worth remembering |
+| **Connect** | Keyword + semantic matching finds related memories, deciding whether to merge, link, or create new |
+| **Store** | Writes to PostgreSQL with embeddings, tags, confidence scores, and temporal validity |
+
+9 memory modules handle quality scoring, semantic search, deduplication, tag management, caching, and automatic consolidation of scattered findings into reusable patterns.
+
+---
+
+## Soul Evolution
+
+Behavioral guidelines aren't static. ensoul watches for patterns in accumulated memories:
+
+- High-frequency **patterns** → auto-promoted as soul guideline candidates
+- Repeated **corrections** → flag outdated rules for archival
+
+All candidates require human approval before updating the soul. The AI proposes; the human disposes.
+
+---
+
+## Multi-provider Execution
+
+ensoul ships with a unified executor supporting 7 LLM providers:
+
+| Provider | Models |
+|----------|--------|
+| Anthropic | Claude Opus, Sonnet, Haiku |
+| OpenAI | GPT-4o, GPT-4o-mini |
+| DeepSeek | DeepSeek Chat |
+| Moonshot | Kimi K2.5 |
+| Google | Gemini 2.0 Flash |
+| Zhipu | GLM-4 |
+| Alibaba | Qwen |
+
+Automatic fallback, retry with exponential backoff, and proxy support included.
+
+---
 
 ## How it differs from other frameworks
 
@@ -111,13 +166,30 @@ Now Claude Code can load your code reviewer's soul, recall relevant memories fro
 | Evolution | Soul auto-evolves from experience | Static configuration |
 | Negotiation | Structured multi-round discussions with stances | Sequential task handoff |
 
-## Production usage
+---
 
-ensoul powers the digital employee system at Knowlyr, managing 30+ AI employees across engineering, product, and operations — running in production since early 2025.
+## Crew Ecosystem
+
+ensoul is the core framework extracted from [Crew](https://github.com/liuxiaotong/knowlyr-crew) — a digital employee management system running 30+ AI employees in production since early 2025.
+
+```
+┌─────────────────────────────────┐
+│  Crew (private)                 │
+│  30+ employees · Feishu · WeCom │
+│  ┌───────────────────────────┐  │
+│  │  ensoul (open source)     │  │
+│  │  Identity · Memory · Nego │  │
+│  └───────────────────────────┘  │
+└─────────────────────────────────┘
+```
+
+Battle-tested modules are incrementally extracted from the production Crew codebase into ensoul as they mature.
+
+---
 
 ## Status
 
-🚧 **Alpha** — Core modules are being extracted from the production [Crew](https://github.com/liuxiaotong/knowlyr-crew) codebase. APIs may change.
+🚧 **Alpha** — Core modules (identity, memory, execution) are available. Discussion engine and MCP server coming next. APIs may change.
 
 ## License
 
