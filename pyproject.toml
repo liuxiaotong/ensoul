@@ -1,0 +1,78 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "ensoul"
+version = "0.1.0"
+description = "Give your AI a soul — identity, memory & negotiation framework for digital employees"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.10"
+authors = [
+    { name = "Liu Kai", email = "mrliukai@gmail.com" }
+]
+keywords = [
+    "ai-soul", "digital-employee", "mcp", "model-context-protocol",
+    "ai-identity", "ai-memory", "claude-code", "cursor", "ai-ide",
+    "prompt-engineering", "ai-automation", "multi-agent",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    "click>=8.0",
+    "pydantic>=2.0",
+    "pyyaml>=6.0",
+    "rich>=13.0",
+]
+
+[project.optional-dependencies]
+mcp = ["mcp>=1.0"]
+execute = ["anthropic>=0.40"]
+openai = ["openai>=1.0"]
+pg = ["psycopg2-binary>=2.9"]
+vector = ["sentence-transformers>=2.2", "pgvector>=0.2"]
+webhook = ["starlette>=0.27", "uvicorn>=0.20", "croniter>=2.0"]
+dev = ["pytest", "pytest-asyncio", "ruff"]
+all = ["ensoul[mcp,execute,openai,pg,webhook,dev]"]
+
+[project.scripts]
+ensoul = "ensoul.cli:main"
+
+[project.entry-points."mcp.servers"]
+ensoul = "ensoul.mcp_server:serve"
+
+[project.urls]
+Homepage = "https://github.com/liuxiaotong/ensoul"
+Repository = "https://github.com/liuxiaotong/ensoul"
+Issues = "https://github.com/liuxiaotong/ensoul/issues"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/ensoul"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "UP", "B", "C4"]
+ignore = ["E501", "E402", "E741", "B904", "B007", "B011", "B017"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
