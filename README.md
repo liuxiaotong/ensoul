@@ -6,6 +6,9 @@
 
 <div align="center">
 
+<img src="assets/icon.png" width="128" alt="ensoul icon">
+<br/>
+
 <h1>ensoul</h1>
 
 <h3>The Operating System for Digital Civilization's Organizational Layer</h3>

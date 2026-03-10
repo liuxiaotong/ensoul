@@ -6,6 +6,9 @@
 
 <div align="center">
 
+<img src="assets/icon.png" width="128" alt="ensoul icon">
+<br/>
+
 <h1>ensoul</h1>
 
 <h3>数字文明组织层的操作系统</h3>
