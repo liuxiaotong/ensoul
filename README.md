@@ -919,10 +919,10 @@ ensoul serve --port 8765 --token YOUR_SECRET
 | | `/webhook/openclaw` | POST | OpenClaw message events |
 | | `/feishu/event` | POST | Feishu event callback (@employee triggers) |
 | | `/wecom/event/{app_id}` | GET/POST | WeCom event callback |
-| **Execution** | `/run/pipeline/{name}` | POST | Trigger pipeline (async/sync/SSE streaming) |
+| **Execution** | `/api/v1/pipelines/{pipeline_name}/run` | POST | Trigger pipeline (async/sync/SSE streaming) |
 | | `/run/route/{name}` | POST | Trigger collaboration route |
-| | `/run/employee/{name}` | POST | Trigger employee (supports SSE streaming) |
-| | `/tasks/{task_id}` | GET | Query task status and results |
+| | `/api/v1/employees/{name}/run` | POST | Trigger employee (supports SSE streaming) |
+| | `/api/v1/tasks/{task_id}` | GET | Query task status and results |
 | **Employee Management** | `/api/employees` | GET/POST | List/create employees |
 | | `/api/employees/{id}` | GET/PUT/DELETE | Employee CRUD |
 | | `/api/employees/{id}/prompt` | GET | Employee capability definition (team, permissions, 7-day cost) |

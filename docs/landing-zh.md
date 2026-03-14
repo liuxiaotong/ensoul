@@ -918,10 +918,10 @@ ensoul serve --port 8765 --token YOUR_SECRET
 | | `/webhook/openclaw` | POST | OpenClaw 消息事件 |
 | | `/feishu/event` | POST | 飞书事件回调（@员工触发） |
 | | `/wecom/event/{app_id}` | GET/POST | 企业微信事件回调 |
-| **执行** | `/run/pipeline/{name}` | POST | 触发 pipeline（异步/同步/SSE 流式） |
+| **执行** | `/api/v1/pipelines/{pipeline_name}/run` | POST | 触发 pipeline（异步/同步/SSE 流式） |
 | | `/run/route/{name}` | POST | 触发协作路由 |
-| | `/run/employee/{name}` | POST | 触发员工（支持 SSE 流式） |
-| | `/tasks/{task_id}` | GET | 查询任务状态和结果 |
+| | `/api/v1/employees/{name}/run` | POST | 触发员工（支持 SSE 流式） |
+| | `/api/v1/tasks/{task_id}` | GET | 查询任务状态和结果 |
 | **员工管理** | `/api/employees` | GET/POST | 列出/创建员工 |
 | | `/api/employees/{id}` | GET/PUT/DELETE | 员工 CRUD |
 | | `/api/employees/{id}/prompt` | GET | 员工能力定义（含团队、权限、7日成本） |
